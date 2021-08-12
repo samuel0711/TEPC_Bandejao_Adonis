@@ -40,7 +40,6 @@ export default class CadastrosController {
 
         users.push(cad)
         count = count + 1;
-
         return response.json(users)
     }
 }
