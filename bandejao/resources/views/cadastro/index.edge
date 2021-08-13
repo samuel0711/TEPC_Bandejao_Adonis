@@ -1,0 +1,14 @@
+@layout('layouts/main')
+@set('title', 'Cadastros')
+@set('subtitle', '')
+
+@section('body')
+<ul>
+  @each(user in users)
+    <li>
+      <a href='/cadastro/{{ user.id }}'>{{ user.nome }}</a>
+      <!-- <a href='{{ route("cadastro.show", { id: '${user.id}' }) }}'>{{user.nome}}</a> -->
+    </li>
+  @end
+</ul>
+@end

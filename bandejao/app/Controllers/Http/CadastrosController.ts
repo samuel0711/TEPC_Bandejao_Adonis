@@ -20,13 +20,13 @@ let count = 2;
 
 export default class CadastrosController {
 
-    public index({response}: HttpContextContract){
-        return response.json(users);
+    public async index({view}: HttpContextContract){
+        return view.render('cadastro/index', {users: users});
     }
 
-    public show({response, params}:HttpContextContract){
-        console.log(params.id);
-        return response.json(users[params.id]);
+    public async show({view, params}:HttpContextContract){
+        const user = users[params.id];
+        return view.render('cadastro/show', { user });
     }
 
     public store({request}: HttpContextContract){

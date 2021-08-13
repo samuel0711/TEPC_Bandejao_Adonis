@@ -26,12 +26,9 @@ Route.get('/', async ({ view }) => {
   return view.render('welcome')
 })
 
-Route.get('/login', async ({ view }) => {
-  return view.render('login')
-})
 
 Route.group( () => {
   Route.get('/', 'CadastrosController.index').as('index')
   Route.post('/', 'CadastrosController.store').as('store')
   Route.get('/:id', 'CadastrosController.show').as('show')
-}).prefix('/cadastro')
+}).prefix('/cadastro').as('cadastro')
