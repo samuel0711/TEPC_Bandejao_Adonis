@@ -7,7 +7,7 @@ export default class Cadastros extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').unique()
       table.string('nome').notNullable()
-      table.integer('matricula').notNullable() //adicionado notNullable depois de criar a tabela
+      table.integer('matricula').notNullable().unique()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

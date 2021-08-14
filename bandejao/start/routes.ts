@@ -24,11 +24,17 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ view }) => {
   return view.render('welcome')
-})
+}).as('index')
 
+Route.get('/login','SessionsController.create').as('sessions.create')
+Route.post('/login','SessionsController.store').as('sessions.store')
+Route.get('/logout','SessionsController.delete').as('sessions.delete')
 
 Route.group( () => {
   Route.get('/', 'CadastrosController.index').as('index')
   Route.post('/', 'CadastrosController.store').as('store')
   Route.get('/:id', 'CadastrosController.show').as('show')
-}).prefix('/cadastro').as('cadastro')
+})
+.prefix('/cadastro')
+.middleware('auth')
+.as('cadastro')

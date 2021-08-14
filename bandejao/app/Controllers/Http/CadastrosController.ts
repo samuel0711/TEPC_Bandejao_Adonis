@@ -4,7 +4,11 @@ import { HttpContext, Response } from "@adonisjs/core/build/standalone";
 import Cadastro from "App/Models/Cadastro";
 
 export default class CadastrosController {
-    public async index({view}: HttpContextContract){
+    public async index({view, auth}: HttpContextContract){
+        await auth.use('web').authenticate()
+
+        console.log(auth.user!)
+
         const users = await Cadastro.all()
         return view.render('cadastro/index', {users: users});
     }
