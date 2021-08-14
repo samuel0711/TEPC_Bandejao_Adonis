@@ -1,45 +1,28 @@
 // import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import { HttpContext, Response } from "@adonisjs/core/build/standalone";
-
-
-let users = [
-    {
-      id: 0,
-      nome: "Samuel Igor dos Santos Pessoa",
-      matricula: 2016780469
-    },
-    {
-      id: 1,
-      nome: "Ariane Rodrigues Carneiro",
-      matricula: 2016750262
-    }
-];
-
-let count = 2;
+import Cadastro from "App/Models/Cadastro";
 
 export default class CadastrosController {
-
     public async index({view}: HttpContextContract){
+        const users = await Cadastro.all()
         return view.render('cadastro/index', {users: users});
     }
 
     public async show({view, params}:HttpContextContract){
-        const user = users[params.id];
+        const user = await Cadastro.find(params.id);
         return view.render('cadastro/show', { user });
     }
 
-    public store({request}: HttpContextContract){
+    public store({request, response}: HttpContextContract){
         const nome = request.input('nome')
         const matricula = request.input('matricula')
         const cad = {
-            id: count,
             nome: nome,
             matricula: matricula
         }
-
-        users.push(cad)
-        count = count + 1;
+        
+        
         return response.json(users)
     }
 }
