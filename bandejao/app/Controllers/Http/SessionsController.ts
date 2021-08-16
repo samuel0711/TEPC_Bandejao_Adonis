@@ -2,18 +2,26 @@ import { Response } from '@adonisjs/core/build/standalone';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SessionsController {
-    public async create({view, auth}: HttpContextContract){
-        
-        return view.render('sessions/create');
+    public async create({view, auth, response}: HttpContextContract){
+
+        if(await auth.check()){
+            response.redirect().toRoute('agenda.index')
+        }else{
+            return view.render('sessions/create');
+        }
     }
 
     public async store({auth, request, response}: HttpContextContract){
-        const email = request.input('login');
+        const matricula = request.input('matricula');
         const password = request.input('password');
+        console.log(matricula)
+        console.log(password)
 
         try{
-            await auth.use('web').attempt(email, password)
-            response.redirect().toRoute('cadastro.index')
+            console.log('entrou')
+            await auth.use('web').attempt(matricula, password)
+            console.log('passou')
+            response.redirect().toRoute('agenda.index')
         } catch{
             return response.badRequest('Invalid')
         }

@@ -1,18 +1,59 @@
-@layout('layouts/main')
-@set('title', 'Cadastros')
-@set('subtitle', '')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bandejando</title>
+	  <meta name="author" content="David Grzyb">
+    <meta name="description" content="">
 
-@section('body')
-@if(auth.isLoggedIn)
-  <p> email: {{ auth.user.email }}</p>
-@endif
-<ul>
-  @each(user in users)
-    <li>
-      <a href='/cadastro/{{ user.id }}'>{{ user.nome }}</a>
-      <!-- <a href='{{ route("cadastro.show", { id: '${user.id}' }) }}'>{{user.nome}}</a> -->
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .body-bg {
+            background-color: #9921e8;
+            background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
+        }
+    </style>
+</head>
+<body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+    <header class="max-w-lg mx-auto">
+        <a href="#">
+            <h1 class="text-4xl font-bold text-white text-center">Bandejando</h1>
+        </a>
+    </header>
 
-    </li>
-  @end
-</ul>
-@end
+    <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+        <section>
+            <h3 class="font-bold text-2xl">Bem vindo(a) ao Bandejando!</h3>
+            <p class="text-gray-600 pt-2">Cadastre-se para agendar seu horário!</p>
+        </section>
+
+        <section class="mt-10">
+            <form class="flex flex-col" method="POST" action="{{ route('cadastro.store') }}">
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                  <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="nome">Nome</label>
+                  <input type="text" id="nome" name="nome" required class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                </div>
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="matricula">Matrícula</label>
+                    <input type="number" id="matricula" name="matricula" required class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                </div>
+                <div class="mb-6 pt-3 rounded bg-gray-200">
+                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Senha</label>
+                    <input type="password" id="password" name="password" required class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+                </div>
+                <div class="flex justify-end">
+                    <a href="/login" class="text-sm text-purple-600 hover:text-purple-700 hover:underline mb-6">Já tenho login</a>
+                </div>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Cadastrar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="max-w-lg mx-auto flex justify-center text-white">
+        <a href="#" class="hover:underline">Contact</a>
+    </footer>
+</body>
+</html>

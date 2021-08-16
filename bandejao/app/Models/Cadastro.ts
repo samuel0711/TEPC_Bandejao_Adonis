@@ -8,7 +8,7 @@ export default class Cadastro extends BaseModel {
   @column({ isPrimary: false })
   public nome: text
 
-  @column({ isPrimary: false })
+  @column({ isPrimary: true })
   public matricula: number
 
   @column.dateTime({ autoCreate: true })

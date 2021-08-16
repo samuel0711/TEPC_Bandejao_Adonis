@@ -2,31 +2,36 @@
 
 import { HttpContext, Response } from "@adonisjs/core/build/standalone";
 import Cadastro from "App/Models/Cadastro";
+import User from "App/Models/User";
 
 export default class CadastrosController {
-    public async index({view, auth}: HttpContextContract){
-        await auth.use('web').authenticate()
+    public index({view, auth}: HttpContextContract){
 
-        console.log(auth.user!)
-
-        const users = await Cadastro.all()
-        return view.render('cadastro/index', {users: users});
+        return view.render('cadastro/index');
     }
 
     public async show({view, params}:HttpContextContract){
-        const user = await Cadastro.find(params.id);
-        return view.render('cadastro/show', { user });
+        console.log(params.id)
+        const user = await Cadastro.findBy('id': params.id);
+        console.log(user)
+        return view.render('cadastro/show', { user: user });
     }
 
-    public store({request, response}: HttpContextContract){
+    public async store({request, response}: HttpContextContract){
         const nome = request.input('nome')
         const matricula = request.input('matricula')
-        const cad = {
-            nome: nome,
-            matricula: matricula
+        const password = request.input('password')
+        //console.log(password)
+
+
+        try{
+            const cad = await Cadastro.create({ nome: nome, matricula: matricula })
+            const user = await User.create({ matricula: matricula, password: password })
+            return response.redirect().toRoute('sessions.create')
+        } catch (e){
+            console.log(e.message)
+            return response.badRequest('Invalid')
         }
         
-        
-        return response.json(users)
     }
 }

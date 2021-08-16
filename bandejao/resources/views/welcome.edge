@@ -3,5 +3,27 @@
 @set('subtitle', '')
 
 @section('body')
-    Seja bem-vindo
+<body>
+  <main>
+    <div>
+      <h1 class="title"> {{ title }} </h1>
+      <p class="subtitle">
+        {{ subtitle }}
+      </p>
+      @if(auth.isLoggedIn)
+        <p> Seja bem vindo(a), {{ nome }}</p>
+      @endif
+      <ul>
+        @each(user in users)
+          <li>
+            <a href='/cadastro/{{ user.id }}'>{{ user.nome }}</a>
+            <!-- <a href='{{ route("cadastro.show", { id: '${user.id}' }) }}'>{{user.nome}}</a> -->
+
+          </li>
+        @end
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
 @end

@@ -23,7 +23,7 @@ import Route from '@ioc:Adonis/Core/Route'
 //import CadastrosController from 'App/Controllers/Http/CadastrosController'
 
 Route.get('/', async ({ view }) => {
-  return view.render('welcome')
+  return view.render('begin')
 }).as('index')
 
 Route.get('/login','SessionsController.create').as('sessions.create')
@@ -36,5 +36,6 @@ Route.group( () => {
   Route.get('/:id', 'CadastrosController.show').as('show')
 })
 .prefix('/cadastro')
-.middleware('auth')
 .as('cadastro')
+
+Route.get('/agenda','AgendaController.index').as('agenda.index').middleware('auth')
