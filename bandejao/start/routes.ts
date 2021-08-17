@@ -38,4 +38,11 @@ Route.group( () => {
 .prefix('/cadastro')
 .as('cadastro')
 
-Route.get('/agenda','AgendaController.index').as('agenda.index').middleware('auth')
+Route.group( () => {
+  Route.get('/','AgendaController.index').as('index')
+  Route.get('/show','AgendaController.show').as('show')
+  Route.post('/', 'AgendaController.store').as('store')
+})
+.prefix('/agenda')
+.middleware('auth')
+.as('agenda')
