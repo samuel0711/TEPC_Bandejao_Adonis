@@ -1,21 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bandejando</title>
-  @entryPointStyles('app')
-  @entryPointScripts('app')
-  <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-      .body-bg {
-          background-color: #9921e8;
-          background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
-      }
-  </style>
-</head>
+<!doctype html>
+<html lang=pt>
+    <head>
+        <meta charset=utf-8>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<style>
+            .msgBox {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%,-50%);
+              width: 200px;
+              background: #aaa;
+            }
+      
+            .msgBox p {
+              line-height: 1.5;
+              padding: 10px 20px;
+              color: #333;
+            }
+      
+            .msgBox button {
+              background: none;
+              border: none;
+              position: absolute;
+              top: 0;
+              right: 0;
+              font-size: 1.1rem;
+              color: #aaa;
+            }
+      
+            </style>-->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
+            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">      
+            @entryPointStyles('app')
+            @entryPointScripts('app')      
+            <title>Bandejando</title>
+    </head>
+    <body class="font-Bitter overflow-x-hidden  h-screen">
+      <header>
+          <nav class="container flex items-center py-4 mt-4 sm:mt-12">
+              <div class="py-1 mr-5">
+                  <img src="/bandejando_met.png" alt="">
+              </div>
+              <div class="flex sm:hidden flex-1 justify-end">
+                  <i class="text-2xl fas fa-bars"></i>
+              </div>
+              <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-band-red uppercase text-xs">
+                      <a href="/login" class="bg-band-red text-white rounded-md px-7 py-3 uppercase">Login</li>
+                      <!--<button type="button" class="bg-band-red text-white rounded-md px-7 py-3 uppercase">Logout</button>-->
+                      <a href="/logout" class="bg-band-red text-white rounded-md px-7 py-3 uppercase">Logout</a>
+              </ul>
+              
+          </nav>
+      </header>
 
-@!section('body')
+      @!section('pbody')
+      <div class="text-center" id="time"></div>
+      <script>
+          var btn = document.querySelector('button');
+          
+          btn.onclick = display;
 
+          function display(){
+              var html = document.querySelector('html');
+
+              var panel = document.createElement('div');
+              panel.setAttribute('class', 'msgBox');
+              html.appendChild(panel);
+
+              matr = document.getElementById("matricula").value
+              selected = document.getElementById("horarios")
+              select = selected.options[selected.selectedIndex].text
+
+              var msg = document.createElement('p');
+              msg.textContent = 'Matrícula '+matr+' reservada para '+select;
+              panel.appendChild(msg);
+
+              var closeBtn = document.createElement('button');
+              closeBtn.textContent = 'x';
+              panel.appendChild(closeBtn);
+
+              closeBtn.onclick = function() {
+                  panel.parentNode.removeChild(panel);
+              }
+          }
+
+
+
+          
+          function showHours(){
+              function checkTime(i) {
+                  if (i < 10) {
+                      i = "0" + i;
+                  }
+                  return i;
+              }
+
+              function startTime() {
+                  var today = new Date();
+                  var h = today.getHours();
+                  var m = today.getMinutes();
+                  var s = today.getSeconds();
+                  // add a zero in front of numbers<10
+                  m = checkTime(m);
+                  s = checkTime(s);
+                  document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+                  t = setTimeout(function() {
+                      startTime()
+                  }, 500);
+              }
+              startTime();
+          }
+          
+          showHours();
+
+          var h = today.getHours();
+          var m = today.getMinutes();
+          hour = h + ":" + m
+
+          
+
+
+          function timeToDecimal(t) {
+              var arr = t.split(':');
+              var dec = parseInt((arr[1]/6)*10, 10);
+
+              return parseFloat(parseInt(arr[0], 10) + '.' + (dec<10?'0':'') + dec);
+          }
+
+          times = timeToDecimal(hour)
+
+          $('#horarios option').filter(function () {
+              return (parseInt(this.value,10) > times || (parseInt(this.value,10) - times) > 300 );
+          }).hide();
+
+
+          function onlyNumberKey(evt) {
+          
+              var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+              if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                  return false;
+              return true;
+          }
+      </script> 
+    </body>
+    <footer class="bg-band-red py-8 md:mt-20 sm:mt-10 xl:mt-44">
+      <div class="container flex flex-col md:flex-row items-center">
+          <div class="hidden sm:flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12">
+              <p class="text-white">Entre em contato conosco: (21) 4002-8922</p>
+          </div>
+          <div class="sm:hidden flex flex-1 flex-wrap items-center justify-center md:justify-start gap-12">
+              <p class="text-white mb-2 text-center">Entre em contato conosco:<br>(21) 4002-8922</p>
+          </div>
+          <div class="flex gap-10 mt-2 md:mt-0">
+              <li class="list-none"><i class="text-white text-2xl fab fa-twitter"></i></li>
+              <li class="list-none"><i class="text-white text-2xl fab fa-facebook-square"></i></li>
+          </div>
+      </div>
+  </footer>
 </html>
